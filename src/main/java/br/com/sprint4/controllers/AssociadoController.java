@@ -1,13 +1,9 @@
 package br.com.sprint4.controllers;
 
 import br.com.sprint4.dtos.AssociadoDto;
-import br.com.sprint4.dtos.PartidoDto;
-import br.com.sprint4.exceptions.CargoInvalidException;
-import br.com.sprint4.exceptions.SexoInvalidException;
+import br.com.sprint4.models.AssociadoEPartido;
 import br.com.sprint4.models.CargoPolitico;
-import br.com.sprint4.models.Ideologia;
 import br.com.sprint4.services.AssociadoService;
-import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -42,10 +38,14 @@ public class AssociadoController {
 
     @GetMapping("/{id}")
     public ResponseEntity<AssociadoDto> mostrarPorId(@PathVariable Long id){
-        AssociadoDto associadoDto = associadoService.mostarPorId(id);
+        AssociadoDto associadoDto = associadoService.mostrarPorId(id);
         return ResponseEntity.ok(associadoDto);
     }
-//    @PostMapping("/partidos")
+    @PostMapping("/partidos")
+    public ResponseEntity<Void> associacao(@RequestBody @Valid AssociadoEPartido associadoEPartido){
+        associadoService.AssociadoEmPartido(associadoEPartido.getIdAssociado(), associadoEPartido.getIdPartido());
+        return ResponseEntity.noContent().build();
+    }
 
     @PutMapping("/{id}")
     public ResponseEntity<Void> atualizar(@RequestBody @Valid AssociadoDto associadoDto, @PathVariable Long id){
@@ -56,6 +56,12 @@ public class AssociadoController {
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deletar(@PathVariable Long id){
         associadoService.deletar(id);
+        return ResponseEntity.noContent().build();
+    }
+
+    @DeleteMapping("/{idA}/partidos/{idP}")
+    public ResponseEntity<Void> deletarAssociadoDoPartido(@PathVariable Long idA, Long idP){
+        associadoService.deletarAssociadoDoPartido(idA, idP);
         return ResponseEntity.noContent().build();
     }
 }

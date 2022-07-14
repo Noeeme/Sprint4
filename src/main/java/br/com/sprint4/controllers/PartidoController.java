@@ -4,16 +4,12 @@ import br.com.sprint4.dtos.PartidoDto;
 import br.com.sprint4.models.Ideologia;
 import br.com.sprint4.models.PartidoModelo;
 import br.com.sprint4.services.PartidoService;
-import org.springframework.beans.BeanUtils;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.time.LocalDateTime;
-import java.time.ZoneId;
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/partidos")
@@ -41,11 +37,16 @@ public class PartidoController {
 
     @GetMapping("/{id}")
     public ResponseEntity<PartidoDto> mostrarPorId(@PathVariable Long id){
-        PartidoDto partidoDto = partidoService.mostarPorId(id);
+        PartidoDto partidoDto = partidoService.mostrarPorId(id);
         return ResponseEntity.ok(partidoDto);
     }
 
-//    @GetMapping("/{id}/associados")
+    @GetMapping("/{id}/associados")
+    public ResponseEntity<List<PartidoModelo>> mostrarAssociados(@PathVariable Long id){
+        List<PartidoModelo> partidoModelo = partidoService.mostrarAssociados(id);
+        return ResponseEntity.ok(partidoModelo);
+    }
+
 
     @PutMapping("/{id}")
     public ResponseEntity<Void> atualizar(@RequestBody @Valid PartidoDto partidoDto, @PathVariable Long id){

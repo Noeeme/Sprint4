@@ -7,6 +7,8 @@ import lombok.NoArgsConstructor;
 import javax.persistence.*;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Data
@@ -19,4 +21,7 @@ public class PartidoModelo {
     private String sigla;
     private String ideologia;
     private LocalDate dataFundacao;
+
+//    @OneToMany(mappedBy = "nome", orphanRemoval = true, cascade = CascadeType.ALL)
+//    private List<AssociadoModelo> associados;
 }

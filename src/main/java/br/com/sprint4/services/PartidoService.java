@@ -2,6 +2,7 @@ package br.com.sprint4.services;
 
 import br.com.sprint4.dtos.PartidoDto;
 import br.com.sprint4.exceptions.PartidoNotFoundException;
+import br.com.sprint4.models.AssociadoModelo;
 import br.com.sprint4.models.Ideologia;
 import br.com.sprint4.models.PartidoModelo;
 import br.com.sprint4.repositories.PartidoRepository;
@@ -12,8 +13,8 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.ZoneId;
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -35,9 +36,14 @@ public class PartidoService {
         return dtos;
     }
 
-    public PartidoDto mostarPorId(Long id){
+    public PartidoDto mostrarPorId(Long id){
         PartidoModelo partidoModelo = partidoRepository.findById(id).orElseThrow(PartidoNotFoundException::new);
         return modelMapper.map(partidoModelo, PartidoDto.class);
+    }
+
+    public List<PartidoModelo> mostrarAssociados(Long id){
+        List<PartidoModelo> partidoModelo = partidoRepository.findAllById(Collections.singleton(id));
+        return partidoModelo;
     }
 
     public void atualizar(PartidoDto partidoDto, Long id){

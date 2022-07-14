@@ -19,4 +19,9 @@ public class AssociadoModelo {
     private String  cargo;
     private Date dataNascimento;
     private String sexo;
+
+    @JoinColumn(name = "partido_id")
+    @ManyToOne
+    private PartidoModelo partido;
+
 }

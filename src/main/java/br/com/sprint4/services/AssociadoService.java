@@ -1,11 +1,7 @@
 package br.com.sprint4.services;
 
 import br.com.sprint4.dtos.AssociadoDto;
-import br.com.sprint4.dtos.PartidoDto;
-import br.com.sprint4.exceptions.AssociadoNotFoundException;
-import br.com.sprint4.exceptions.CargoInvalidException;
 import br.com.sprint4.exceptions.PartidoNotFoundException;
-import br.com.sprint4.exceptions.SexoInvalidException;
 import br.com.sprint4.models.AssociadoModelo;
 import br.com.sprint4.models.CargoPolitico;
 import br.com.sprint4.models.PartidoModelo;
@@ -17,8 +13,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
-import java.time.LocalDate;
-import java.time.ZoneId;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -51,14 +45,14 @@ public class AssociadoService {
         return associadoRepository.save(associadoModelo);
     }
 
-//    public AssociadoModelo salvaAssociadoEmPartido(Long idAssociado, Long idPartido){
-//        associadoRepository.findById(idAssociado).orElseThrow(AssociadoNotFoundException::new);
-//        partidoRepository.findById(idPartido).orElseThrow(PartidoNotFoundException::new);
-//
-//
-//    }
+    public void AssociadoEmPartido(Long idAssociado, Long idPartido){
+        PartidoModelo partidoModelo = new PartidoModelo();
+        AssociadoModelo idA = associadoRepository.getReferenceById(idAssociado);
+        PartidoModelo idP = partidoRepository.getReferenceById(idPartido);
+        idA.setPartido(idP);
+    }
 
-    public AssociadoDto mostarPorId(Long id){
+    public AssociadoDto mostrarPorId(Long id){
         AssociadoModelo associadoModelo = associadoRepository.findById(id).orElseThrow(PartidoNotFoundException::new);
         return modelMapper.map(associadoModelo, AssociadoDto.class);
     }
@@ -73,5 +67,11 @@ public class AssociadoService {
     public void deletar(Long id){
         associadoRepository.findById(id).orElseThrow(PartidoNotFoundException::new);
         associadoRepository.deleteById(id);
+    }
+
+    public void deletarAssociadoDoPartido(Long idAssociado, Long idPartido){
+        AssociadoModelo idA = associadoRepository.getReferenceById(idAssociado);
+        PartidoModelo idP = partidoRepository.getReferenceById(idPartido);
+        associadoRepository.deleteById(idA.getPartido(idP));
     }
 }

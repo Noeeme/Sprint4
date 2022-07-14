@@ -6,4 +6,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface AssociadoRepository extends JpaRepository<AssociadoModelo, Long> {
+    void deleteById(AssociadoModelo idA);
 }

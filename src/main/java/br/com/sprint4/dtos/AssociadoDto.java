@@ -3,6 +3,7 @@ package br.com.sprint4.dtos;
 import br.com.sprint4.models.CargoPolitico;
 import br.com.sprint4.models.Sexo;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -14,14 +15,14 @@ import java.util.Date;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
 public class AssociadoDto {
 
     @NotBlank
     private String nome;
     @NotBlank
-    private CargoPolitico cargo;
-    @NotBlank
+    private String cargo;
     private Date dataNascimento;
     @NotBlank
-    private Sexo sexo;
+    private String sexo;
 }

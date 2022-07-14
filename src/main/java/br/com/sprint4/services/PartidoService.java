@@ -9,9 +9,9 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.PutMapping;
 
 import javax.transaction.Transactional;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.List;
@@ -41,19 +41,19 @@ public class PartidoService {
     }
 
     public void atualizar(PartidoDto partidoDto, Long id){
-        validationService.validate(partidoDto);
+        validationService.validaIdeologia(partidoDto);
         PartidoModelo partidoModelo = partidoRepository.findById(id).orElseThrow(PartidoNotFoundException::new);
         modelMapper.map(partidoDto, partidoModelo);
-        partidoModelo.setDataFundacao(LocalDateTime.now(ZoneId.of("UTC")));
+        partidoModelo.setDataFundacao(LocalDate.now(ZoneId.of("UTC")));
         partidoRepository.save(partidoModelo);
     }
 
     @Transactional
     public PartidoModelo salvar(PartidoDto partidoDto) {
-        validationService.validate(partidoDto);
+        validationService.validaIdeologia(partidoDto);
         PartidoModelo partidoModelo = new PartidoModelo();
         BeanUtils.copyProperties(partidoDto, partidoModelo);
-        partidoModelo.setDataFundacao(LocalDateTime.now(ZoneId.of("UTC")));
+        partidoModelo.setDataFundacao(LocalDate.now(ZoneId.of("UTC")));
         return partidoRepository.save(partidoModelo);
     }
 

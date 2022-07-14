@@ -18,5 +18,5 @@ public class PartidoModelo {
     private String nome;
     private String sigla;
     private String ideologia;
-    private LocalDateTime dataFundacao;
+    private LocalDate dataFundacao;
 }

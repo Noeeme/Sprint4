@@ -16,11 +16,7 @@ public class AssociadoModelo {
     @Id @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     private String nome;
-    @Enumerated(EnumType.STRING)
-    private CargoPolitico cargo;
+    private String  cargo;
     private Date dataNascimento;
-    @Enumerated(EnumType.STRING)
-    private Sexo sexo;
-    @ManyToOne
-    private PartidoModelo partido;
+    private String sexo;
 }

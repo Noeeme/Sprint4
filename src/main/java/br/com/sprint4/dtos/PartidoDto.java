@@ -19,5 +19,6 @@ public class PartidoDto {
     private String nome;
     @NotBlank
     private String sigla;
+    @NotBlank
     private String ideologia;
 }

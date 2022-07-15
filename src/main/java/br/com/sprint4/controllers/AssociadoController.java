@@ -1,6 +1,7 @@
 package br.com.sprint4.controllers;
 
 import br.com.sprint4.dtos.AssociadoDto;
+import br.com.sprint4.dtos.AssociadoDtoResponse;
 import br.com.sprint4.models.AssociadoEPartido;
 import br.com.sprint4.models.CargoPolitico;
 import br.com.sprint4.services.AssociadoService;
@@ -27,23 +28,23 @@ public class AssociadoController {
 
         return ResponseEntity.status(HttpStatus.CREATED).body(associadoService.salvar(associadoDto));
     }
-    @GetMapping
-    public ResponseEntity<List<AssociadoDto>> mostrarTodos(@RequestParam(required = false) CargoPolitico cargoPolitico,
-                                                           @RequestParam(required = false, defaultValue = "id") String sortDescBy){
 
-        //FALTA ORDENAÇAO POR NOME!
-        List<AssociadoDto> lista = associadoService.mostrarTodos(cargoPolitico, sortDescBy);
+    @GetMapping
+    public ResponseEntity<List<AssociadoDtoResponse>> mostrarTodos(@RequestParam(required = false) CargoPolitico cargoPolitico,
+                                                           @RequestParam(required = false, value = "nome") String nome){
+
+        List<AssociadoDtoResponse> lista = associadoService.mostrarTodos(cargoPolitico, nome);
         return ResponseEntity.ok(lista);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<AssociadoDto> mostrarPorId(@PathVariable Long id){
-        AssociadoDto associadoDto = associadoService.mostrarPorId(id);
-        return ResponseEntity.ok(associadoDto);
+    public ResponseEntity<AssociadoDtoResponse> mostrarPorId(@PathVariable Long id){
+        AssociadoDtoResponse associadoDtoResponse = associadoService.mostrarPorId(id);
+        return ResponseEntity.ok(associadoDtoResponse);
     }
     @PostMapping("/partidos")
     public ResponseEntity<Void> associacao(@RequestBody @Valid AssociadoEPartido associadoEPartido){
-        associadoService.AssociadoEmPartido(associadoEPartido.getIdAssociado(), associadoEPartido.getIdPartido());
+        associadoService.associadoEmPartido(associadoEPartido.getIdAssociado(), associadoEPartido.getIdPartido());
         return ResponseEntity.noContent().build();
     }
 
@@ -59,9 +60,10 @@ public class AssociadoController {
         return ResponseEntity.noContent().build();
     }
 
-    @DeleteMapping("/{idA}/partidos/{idP}")
-    public ResponseEntity<Void> deletarAssociadoDoPartido(@PathVariable Long idA, Long idP){
-        associadoService.deletarAssociadoDoPartido(idA, idP);
+    //ATENÇÃO!!
+    @DeleteMapping("/{idAssociado}/partidos/{idPartido}")
+    public ResponseEntity<Void> deletarAssociadoDoPartido(@PathVariable Long idAssociado, @PathVariable Long idPartido){
+        associadoService.deletarAssociadoDoPartido(idAssociado, idPartido);
         return ResponseEntity.noContent().build();
     }
 }

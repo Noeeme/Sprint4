@@ -20,8 +20,8 @@ public class AssociadoModelo {
     private Date dataNascimento;
     private String sexo;
 
-    @JoinColumn(name = "partido_id")
-    @ManyToOne
+//    @JoinColumn(name = "partido_id")
+    @ManyToOne(optional = true, cascade = CascadeType.REFRESH)
     private PartidoModelo partido;
 
 }

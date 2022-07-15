@@ -21,14 +21,14 @@ public class ValidationService {
             throw new IdeologiaInvalidException();
         }
     }
-    public void validaCargo(AssociadoDto associadoDto) throws CargoInvalidException {
+    public void validaCargo(AssociadoDto associadoDto){
         boolean valido = Arrays.stream(CargoPolitico.values()).anyMatch(cargoPolitico -> cargoPolitico.getValor().equals(associadoDto.getCargo()));
 
         if(!valido){
             throw new CargoInvalidException();
         }
     }
-    public void validaSexo(AssociadoDto associadoDto) throws SexoInvalidException {
+    public void validaSexo(AssociadoDto associadoDto) {
         boolean valido = Arrays.stream(Sexo.values()).anyMatch(sexo -> sexo.getValor().equals(associadoDto.getSexo()));
 
         if (!valido) {

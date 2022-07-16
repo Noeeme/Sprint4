@@ -60,7 +60,6 @@ public class AssociadoController {
         return ResponseEntity.noContent().build();
     }
 
-    //ATENÇÃO!!
     @DeleteMapping("/{idAssociado}/partidos/{idPartido}")
     public ResponseEntity<Void> deletarAssociadoDoPartido(@PathVariable Long idAssociado, @PathVariable Long idPartido){
         associadoService.deletarAssociadoDoPartido(idAssociado, idPartido);

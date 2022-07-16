@@ -12,8 +12,10 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import javax.persistence.NoResultException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -29,38 +31,42 @@ public class AssociadoControllerTest {
     @Test
     public void cadastrarAssociado() {
         AssociadoDto associadoDto = new AssociadoDto();
-        associadoService.salvar(associadoDto);
+        AssociadoController associadoController = new AssociadoController(associadoService);
+        associadoController.cadastrarAssociado(associadoDto);
 
         Assert.assertNotNull(associadoDto);
     }
 
     @Test
     public void mostrarTodos() {
-        List<AssociadoDtoResponse> associadoDtoResponses = associadoService.mostrarTodos(null, null);
+        AssociadoController associadoController = new AssociadoController(associadoService);
+        ResponseEntity<List<AssociadoDtoResponse>> associadoDtoResponses = associadoController.mostrarTodos(null, null);
 
         Assert.assertNotNull(associadoDtoResponses);
     }
 
     @Test
     public void mostrarPorId() {
+        AssociadoController associadoController = new AssociadoController(associadoService);
+        ResponseEntity<AssociadoDtoResponse> associado = associadoController.mostrarPorId(1l);
 
-        AssociadoDtoResponse associadoDto = associadoService.mostrarPorId(1l);
-
-        Assert.assertNotNull(1l);
+        Assert.assertNotNull(associado);
     }
 
     @Test
     public void atualizar() {
+        AssociadoController associadoController = new AssociadoController(associadoService);
         AssociadoDto associadoDto = new AssociadoDto();
-        associadoService.atualizar(associadoDto, 1l);
+        associadoController.atualizar(associadoDto, 1l);
 
         Assert.assertNotNull(associadoDto);
     }
 
     @Test
     public void deletar() {
+        AssociadoController associadoController = new AssociadoController(associadoService);
         AssociadoDtoResponse associadoDto = new AssociadoDtoResponse();
-        associadoService.deletar(1l);
+        associadoController.deletar(1l);
 
         Assert.assertNotEquals(Optional.of(1l), associadoDto.getId());
     }
